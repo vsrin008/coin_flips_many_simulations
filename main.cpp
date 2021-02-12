@@ -7,24 +7,40 @@ using namespace std;
 int main() {
     srand(time(0));
     cout << "Welcome to Vinay's coin flip simulator.";
+
     cout << "Enter how many coins you would like to flip: ";
     int numFlips;
     cin >> numFlips;
 
+    cout << "Entire desired minimum amount of heads: ";
+    int desiredHeads;
+    cin >> desiredHeads;
+
+
+
     vector<int> AllFlips(numFlips);
 
     int numHeads = 0;
-    int numTails = 1;
+    int numTails = 0;
+    int numSimulations = 0;
 
-    for (int i=0; i<AllFlips.size()-1; ++i) {
-        FlippedCoin coin;
-        AllFlips.at(i) = coin.GetCoinValue();
-        if (AllFlips.at(i) == 0) {
-            ++numTails;
+    while (numHeads < desiredHeads) {
+
+        for (int i=0; i<AllFlips.size(); ++i) {
+            FlippedCoin coin;
+            AllFlips.at(i) = coin.GetCoinValue();
+            if (AllFlips.at(i) == 0) {
+              ++numTails;
+            }
+            else {
+                ++numHeads;
+            }
         }
-        else {
-            ++numHeads;
+        if (numHeads < desiredHeads) {
+            numTails = 0;
+            numHeads = 0;
         }
+        ++ numSimulations;
     }
     double doubleNumHeads = numHeads;
     double doubleNumTails = numTails;
@@ -35,6 +51,7 @@ int main() {
 
 
     printf("You flipped %d times. These are the results: \n Heads: %d (%f percent) \n Tails: %d (%f percent) \n", numFlips, numHeads, perHeads, numTails, perTails);
+    printf("It took %d simulations to get this result\n", numSimulations);
 
 
 return 0;
